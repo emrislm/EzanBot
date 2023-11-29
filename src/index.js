@@ -1,5 +1,7 @@
 import { config } from 'dotenv';
 import cron from 'node-cron';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import { REST, Client, GatewayIntentBits, Routes, IntentsBitField } from "discord.js";
 import { joinVoiceChannel, AudioPlayerStatus, createAudioPlayer, createAudioResource } from '@discordjs/voice';
 
@@ -8,6 +10,8 @@ import TestCommand from './commands/test.js';
 import { getTimes } from './API/getTimes.js';
 
 config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const TOKEN = process.env.EZANBOT_TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
 const GUILD_ID = process.env.HY_GUILD_ID;
@@ -110,7 +114,9 @@ function playEzan(guild) {
   player.on('error', error => { console.log(`Error: ${error} with resource...`) });
 
   // create and play audio
-  let audioPath = 'C:\\Users\\Itseiji\\Documents\\Emir\\Z_etc\\DC\\dc bots\\ezanBot\\src\\audio\\ezan.mp3';
+  //let audioPath = '..\\src\\audio\\ezan.mp3';
+  let audioPath = join(__dirname, 'audio', 'ezan.mp3');
+  console.log(audioPath);
   let resource = createAudioResource(audioPath);
 
   const voiceChannel = HY_voiceChannel;
